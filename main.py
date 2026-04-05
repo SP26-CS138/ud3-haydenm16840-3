@@ -17,6 +17,14 @@ overall description of the program.
 ##########################################
 import math
 
+
+##########################################
+# CONSTANTS:
+#   Output formatting for the terminal
+##########################################
+format_line = '--------------------------'
+
+
 ##########################################
 # FUNCTIONS:
 ##########################################
@@ -141,12 +149,47 @@ def format_user_data(user_data): #Works as intended, ONLY FOR FILE INPUT
     return formatted_data
 
 
-def output_user_calcs_term():
+def output_user_calcs_term(sample_mean, sample_variance, sample_median, standard_deviation, zscores):
     '''Formats and outputs user's calculations in the terminal'''
-    term_outupt = ''
+    term_output = ''    
     
+    #Mean
+    term_output += format_line + '\n'
+    term_output += 'Sample Mean:'
+    term_output += '\n' + format_line + '\n'
+    term_output += f'{sample_mean:^26.2f}\n\n'
 
-def output_user_calcs_file():
+    #Sample Variance
+    term_output += format_line + '\n'
+    term_output += 'Sample Variance:'
+    term_output += '\n' + format_line + '\n'
+    term_output += f'{sample_variance:^26.2f}\n\n'
+
+    #Sample Median
+    term_output += format_line + '\n'
+    term_output += 'Sample Median:'
+    term_output += '\n' + format_line + '\n'
+    term_output += f'{sample_median:^26.2f}\n\n'
+
+    #Standard Deviation
+    term_output += format_line + '\n'
+    term_output += 'Standard Deviation:'
+    term_output += '\n' + format_line + '\n'
+    term_output += f'{standard_deviation:^26.2f}\n\n'
+
+
+    #Z-scores
+    term_output += format_line + '\n'
+    term_output += 'Z-Scores:'
+    term_output += '\n' + format_line + '\n'
+
+    for i in range(len(zscores)):
+        term_output += str(f'{i + 1:>5}. {zscores[i]:^10.2f}\n')
+
+    return term_output
+
+
+def output_user_calcs_file(sample_mean, sample_variance, sample_median, standard_deviation, zscores):
     '''Formats and outputs user's calculations as a .txt'''
 
 
@@ -178,8 +221,14 @@ def main():
 
     user_input2 = str(input('\nOuput as File (F) or to Terminal (T): ')).upper()
     
-    #while True:
+    while True:
+        if user_input2 == 'F':
+            pass
 
+        if user_input2 == 'T':
+            term_output = output_user_calcs_term(sample_mean, sample_variance, sample_median, standard_deviation, zscores)
+            print(term_output)
+            break
 
 
 if __name__ == "__main__":
