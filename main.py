@@ -114,6 +114,13 @@ def get_inputfile(): #Works as intended
         except FileNotFoundError:
             print('\nThe file entered was not found, please ensure that the file exists!\n')
 
+##########################################
+'''
+I chose to use a list instead of a dictionary for 2 reasons. 
+1. I did not need the functionality of assigning key's to specific values, I just needed a data structure that would efficiently store data.
+2. I needed to be able to easily and quickly index and iterate through data which dictionaries do not allow for.
+'''
+##########################################
 
 def manual_user_input(): #Works as intended
     '''Lets the user manually enter in their data values if a file doesn't exist.'''
@@ -138,10 +145,17 @@ def manual_user_input(): #Works as intended
 
     return formatted_data
 
+##########################################
+'''
+I chose to use a list instead of a dictionary for 2 reasons. 
+1. I did not need the functionality of assigning key's to specific values, I just needed a data structure that would efficiently store data.
+2. I needed to be able to easily and quickly index and iterate through data which dictionaries do not allow for.
+'''
+##########################################
 
 def format_user_data(user_data): #Works as intended, ONLY FOR FILE INPUT
     '''Splits user's data by commas so that a list can be used for calculations'''
-    formatted_data = user_data.split(',')
+    formatted_data = user_data.split(',') 
     for i in range(len(formatted_data)):
         formatted_data[i] = formatted_data[i].strip() 
         formatted_data[i] = float(formatted_data[i])
@@ -149,9 +163,9 @@ def format_user_data(user_data): #Works as intended, ONLY FOR FILE INPUT
     return formatted_data
 
 
-def output_user_calcs_term(sample_mean, sample_variance, sample_median, standard_deviation, zscores):
+def output_user_calcs_term(sample_mean, sample_variance, sample_median, standard_deviation, zscores): #Works as intended
     '''Formats and outputs user's calculations in the terminal'''
-    term_output = ''    
+    term_output = '\n'    
     
     #Mean
     term_output += format_line + '\n'
@@ -177,7 +191,6 @@ def output_user_calcs_term(sample_mean, sample_variance, sample_median, standard
     term_output += '\n' + format_line + '\n'
     term_output += f'{standard_deviation:^26.2f}\n\n'
 
-
     #Z-scores
     term_output += format_line + '\n'
     term_output += 'Z-Scores:'
@@ -189,8 +202,22 @@ def output_user_calcs_term(sample_mean, sample_variance, sample_median, standard
     return term_output
 
 
-def output_user_calcs_file(sample_mean, sample_variance, sample_median, standard_deviation, zscores):
+def output_user_calcs_file(term_output): #Works as intended
     '''Formats and outputs user's calculations as a .txt'''
+    while True:
+        file_name = str(input('\nPlease enter the name of the text file you would like to write to: '))       
+        file_name += '.txt'
+
+        #Testing to see if file exists
+        file = open(file_name, 'w')
+            
+        user_data = file.write(term_output)
+            
+        #Closing file to save resources
+        file.close()
+            
+        print('\nFILE EXPORTED!\n')
+        break
 
 
 ##########################################
@@ -206,7 +233,7 @@ def main():
             break
 
         elif user_input1 == 'M':
-            user_data = manual_user_input() #Getting user data (already formatted)
+            formatted_data = manual_user_input() #Getting user data (already formatted)
             break
         
         else: 
@@ -223,13 +250,18 @@ def main():
     
     while True:
         if user_input2 == 'F':
-            pass
+            term_output = output_user_calcs_term(sample_mean, sample_variance, sample_median, standard_deviation, zscores)
+            output_user_calcs_file(term_output)
+            break
 
-        if user_input2 == 'T':
+        elif user_input2 == 'T':
             term_output = output_user_calcs_term(sample_mean, sample_variance, sample_median, standard_deviation, zscores)
             print(term_output)
             break
 
+        else:
+            print('Invalid input, please try again.')
+            user_input2 = str(input('\nOuput as File (F) or to Terminal (T): ')).upper()
 
 if __name__ == "__main__":
     main()
